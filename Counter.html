@@ -49,12 +49,28 @@
         .milestone-box:hover {
             transform: scale(1.05);
         }
-        .dsic { border-left: 5px solid #0056b3; }
-        .bomesc { border-left: 5px solid #28a745; }
-        .dme { border-left: 5px solid #ffc107; }
+        .dsic {
+            border-left: 5px solid #0056b3;
+            padding-top: 0;
+        }
+        .bomesc {
+            border-left: 5px solid #28a745;
+            padding-top: 0;
+        }
+        .dme {
+            border-left: 5px solid #ffc107;
+            padding-top: 0;
+        }
         .milestone-box h2 {
             font-size: 1.8em;
-            margin-bottom: 10px;
+            margin-bottom: 30px; /* Bigger space after header */
+        }
+        .milestone-box p {
+            font-size: 1.2em;
+            margin: 10px 0;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
         }
         .countdown {
             font-size: 1.4em;
@@ -64,6 +80,11 @@
         .achieved {
             color: #28a745;
             font-weight: bold;
+        }
+        .milestone-name {
+            margin-right: 10px;
+            flex-grow: 1;
+            text-align: left;
         }
     </style>
     <script>
@@ -90,10 +111,9 @@
                 "7P MC": "2025-02-15T00:00:00+08:00",
                 "1S MC": "2025-05-01T00:00:00+08:00",
                 "1SA MC": "2025-03-31T00:00:00+08:00",
-                "3P MC": "2025-03-15T00:00:00+08:00",
+                "3P, 6S MC": "2025-03-15T00:00:00+08:00",
                 "4P MC": "2025-04-15T00:00:00+08:00",
-                "3S, 4S, 5S MC": "2025-02-25T00:00:00+08:00",
-                "6S MC": "2025-03-15T00:00:00+08:00"
+                "3S, 4S, 5S MC": "2025-02-25T00:00:00+08:00"
             };
 
             for (const [event, date] of Object.entries(events)) {
@@ -127,9 +147,23 @@
     <h1>FPSO Milestone Countdown</h1>
     <div id="clock" class="clock">Loading...</div>
     <div class="container">
-        <div class="milestone-box dsic"><h2>DSIC</h2><p id="Hull Sailaway">Loading...</p></div>
-        <div class="milestone-box bomesc"><h2>BOMESC</h2><p id="6P MC">Loading...</p><p id="7P MC">Loading...</p></div>
-        <div class="milestone-box dme"><h2>DME</h2><p id="1S MC">Loading...</p><p id="1SA MC">Loading...</p><p id="3P MC">Loading...</p><p id="4P MC">Loading...</p><p id="3S, 4S, 5S MC">Loading...</p><p id="6S MC">Loading...</p></div>
+        <div class="milestone-box dsic">
+            <h2>DSIC</h2>
+            <p><span class="milestone-name">Hull Sailaway</span><span id="Hull Sailaway">Loading...</span></p>
+        </div>
+        <div class="milestone-box bomesc">
+            <h2>BOMESC</h2>
+            <p><span class="milestone-name">6P MC</span><span id="6P MC">Loading...</span></p>
+            <p><span class="milestone-name">7P MC</span><span id="7P MC">Loading...</span></p>
+        </div>
+        <div class="milestone-box dme">
+            <h2>DME</h2>
+            <p><span class="milestone-name">1S MC</span><span id="1S MC">Loading...</span></p>
+            <p><span class="milestone-name">1SA MC</span><span id="1SA MC">Loading...</span></p>
+            <p><span class="milestone-name">3P, 6S MC</span><span id="3P, 6S MC">Loading...</span></p>
+            <p><span class="milestone-name">4P MC</span><span id="4P MC">Loading...</span></p>
+            <p><span class="milestone-name">3S, 4S, 5S MC</span><span id="3S, 4S, 5S MC">Loading...</span></p>
+        </div>
     </div>
 </body>
 </html>
