@@ -89,7 +89,7 @@
     </style>
     <script>
         function calculateTimeLeft(eventDate) {
-            const now = new Date().toISOString();  // Use ISO string for compatibility
+            const now = new Date().toISOString(); // Use ISO string for compatibility
             const today = new Date(now);
             const event = new Date(eventDate);
             const timeDiff = event - today;
@@ -132,16 +132,25 @@
             }
         }
 
-        function updateClock() {
-            const now = new Date().toISOString();  // Use ISO string for compatibility
-            document.getElementById('clock').innerText = now;
+        function formatClock() {
+            const now = new Date();
+            const formattedDate = now.toLocaleString('en-SG', {
+                year: 'numeric',
+                month: 'short',
+                day: 'numeric',
+                hour: 'numeric',
+                minute: 'numeric',
+                second: 'numeric',
+                hour12: true
+            });
+            document.getElementById('clock').innerText = formattedDate;
         }
 
         function startTimers() {
             updateCountdowns();
-            updateClock();
+            formatClock();
             setInterval(updateCountdowns, 60000);
-            setInterval(updateClock, 1000);
+            setInterval(formatClock, 1000);
         }
 
         window.onload = startTimers;
