@@ -1,202 +1,98 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>FPSO Milestone Countdown</title>
-    <link href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@400;600&family=Roboto:wght@400;700&display=swap" rel="stylesheet">
-    <style>
-        body {
-            font-family: 'Open Sans', sans-serif;
-            background-color: #f4f7fc;
-            color: #333;
-            margin: 0;
-            padding: 0;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            min-height: 100vh;
-            height: 100vh; /* Ensure height fills the screen */
-            width: 100vw; /* Ensure width fills the screen */
-            overflow: hidden;
-        }
-        h1 {
-            font-family: 'Roboto', sans-serif;
-            font-size: 3.5em; /* Increased font size */
-            margin-bottom: 20px;
-            color: #0056b3;
-        }
-        .clock {
-            font-size: 2em; /* Increased font size */
-            margin-bottom: 20px;
-            color: #333;
-        }
-        .container {
-            display: flex;
-            flex-wrap: wrap;
-            justify-content: center;
-            gap: 20px;
-            width: 90%;
-        }
-        .milestone-box {
-            background-color: #fff;
-            border-radius: 10px;
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-            padding: 20px;
-            width: 45%; /* Adjust width for better layout on larger screens */
-            max-width: 500px; /* Ensure readability */
-            text-align: center;
-            transition: transform 0.3s;
-        }
-        .milestone-box:hover {
-            transform: scale(1.05);
-        }
-        .dsic {
-            border-left: 5px solid #0056b3;
-        }
-        .bomesc {
-            border-left: 5px solid #28a745;
-        }
-        .dme {
-            border-left: 5px solid #ffc107;
-        }
-        .milestone-box h2 {
-            font-size: 2.2em; /* Increased font size */
-            margin-bottom: 30px; /* Bigger space after header */
-        }
-        .milestone-box p {
-            font-size: 1.5em; /* Increased font size */
-            margin: 10px 0;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-        }
-        .countdown {
-            font-size: 1.7em; /* Increased font size */
-            font-weight: bold;
-            color: #333;
-        }
-        .completed {
-            color: #28a745;
-            font-weight: bold;
-        }
-        .milestone-name {
-            margin-right: 10px;
-            flex-grow: 1;
-            text-align: left;
-        }
-    </style>
-    <script>
-        function calculateTimeLeft(eventDate) {
-            const now = new Date().toISOString(); // Use ISO string for compatibility
-            const today = new Date(now);
-            const event = new Date(eventDate);
-            const timeDiff = event - today;
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>FPSO Hull Sailaway</title>
+  <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap" rel="stylesheet">
+  <meta http-equiv="refresh" content="86400"> <!-- Refresh once a day -->
+  <style>
+    html, body {
+      margin: 0;
+      padding: 0;
+      height: 100%;
+      width: 100%;
+      font-family: 'Roboto', sans-serif;
+      background: linear-gradient(-45deg, #0f2027, #203a43, #2c5364, #0f2027);
+      background-size: 400% 400%;
+      animation: gradientBG 18s ease infinite;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      color: white;
+      text-align: center;
+      overflow: hidden;
+    }
 
-            if (timeDiff <= 0) {
-                return "Completed!";
-            }
+    @keyframes gradientBG {
+      0% { background-position: 0% 50%; }
+      50% { background-position: 100% 50%; }
+      100% { background-position: 0% 50%; }
+    }
 
-            const days = Math.floor(timeDiff / (1000 * 60 * 60 * 24));
-            const hours = Math.floor((timeDiff % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
-            const minutes = Math.floor((timeDiff % (1000 * 60 * 60)) / (1000 * 60));
-            return `${days}d ${hours}h ${minutes}m`;
-        }
+    h1 {
+      font-size: 6vw;
+      font-weight: 700;
+      margin-bottom: 1vh;
+      text-shadow: 2px 2px 6px rgba(0,0,0,0.3);
+    }
 
-        function updateCountdowns() {
-            const events = {
-                "E-House (8P) Lift": "2025-03-28T00:00:00",  // New milestone
-                "Power Gen-2 (7P) Lift": "2025-04-10T00:00:00",  // New milestone
-                "Power Gen-1 (6P) Lift": "2025-04-12T00:00:00",  // New milestone
-                "Hull Sailaway": "2025-06-15T00:00:00",  // Compatible date format
-                "6P MC": "2025-02-28T00:00:00",  // Updated date
-                "7P MC": "2025-02-28T00:00:00",  // Updated date
-                "1S MC": "2025-05-01T00:00:00",
-                "1SA MC": "2025-03-31T00:00:00",
-                "3P, 6S MC": "2025-03-15T00:00:00",
-                "4P MC": "2025-04-15T00:00:00",
-                "3S, 4S, 5S MC": "2025-02-28T00:00:00",
-                "7S MC": "2025-03-16T00:00:00",  // New milestone
-                "1P, 2P, 5P, 2PW, 3PW, 4PW MC": "2025-03-21T00:00:00",  // New milestone
-                "BOMESC 1PW, 5PW MC": "2025-04-15T00:00:00",  // BOMESC milestone
-                "1PW, 5PW MC": "2025-04-15T00:00:00"  // New milestone for DME
-            };
+    .label {
+      font-size: 3vw;
+      font-weight: 400;
+      opacity: 0.85;
+      margin-bottom: 3vh;
+    }
 
-            for (const [event, date] of Object.entries(events)) {
-                const countdownText = calculateTimeLeft(date);
-                const element = document.getElementById(event);
-                if (element) {
-                    element.innerHTML = countdownText;
-                    if (countdownText === "Completed!") {
-                        element.classList.add("completed");
-                    }
-                }
-            }
-        }
+    .countdown {
+      font-size: 10vw;
+      font-weight: bold;
+      text-shadow: 3px 3px 10px rgba(0,0,0,0.3);
+      animation: glow 2s ease-in-out infinite alternate;
+    }
 
-        function formatClock() {
-            const now = new Date();
-            const formattedDate = now.toLocaleString('en-SG', {
-                year: 'numeric',
-                month: 'short',
-                day: 'numeric',
-                hour: 'numeric',
-                minute: 'numeric',
-                second: 'numeric',
-                hour12: true
-            });
-            document.getElementById('clock').innerText = formattedDate;
-        }
+    @keyframes glow {
+      from { text-shadow: 0 0 10px rgba(255, 255, 255, 0.4); }
+      to { text-shadow: 0 0 20px rgba(255, 255, 255, 0.8); }
+    }
 
-        function startTimers() {
-            updateCountdowns();
-            formatClock();
-            setInterval(updateCountdowns, 60000);
-            setInterval(formatClock, 1000);
-        }
+    .completed {
+      color: #00e676;
+      animation: none;
+      text-shadow: 2px 2px 8px rgba(0, 230, 118, 0.4);
+    }
+  </style>
+  <script>
+    function calculateTimeLeft(dateString) {
+      const now = new Date();
+      const target = new Date(dateString);
+      const diff = target - now;
 
-        window.onload = startTimers;
-    </script>
+      if (diff <= 0) return "Completed!";
+      const days = Math.floor(diff / (1000 * 60 * 60 * 24));
+      const hours = Math.floor((diff / (1000 * 60 * 60)) % 24);
+      const minutes = Math.floor((diff / (1000 * 60)) % 60);
+      const seconds = Math.floor((diff / 1000) % 60);
+      return `${days}d ${hours}h ${minutes}m ${seconds}s`;
+    }
+
+    function updateDisplay() {
+      const countdown = document.getElementById("countdown");
+      const result = calculateTimeLeft("2025-05-29T00:00:00");
+      countdown.textContent = result;
+      if (result === "Completed!") countdown.classList.add("completed");
+    }
+
+    window.onload = () => {
+      updateDisplay();
+      setInterval(updateDisplay, 1000);
+    };
+  </script>
 </head>
 <body>
-    <h1>FPSO Milestone Countdown</h1>
-    <div id="clock" class="clock">Loading...</div>
-    <div class="container">
-        <div class="milestone-box dsic">
-            <h2>DSIC</h2>
-            <p><span class="milestone-name">E-House (8P) Lift</span><span id="E-House (8P) Lift">Loading...</span></p> <!-- New milestone -->
-            <p><span class="milestone-name">Power Gen-2 (7P) Lift</span><span id="Power Gen-2 (7P) Lift">Loading...</span></p> <!-- New milestone -->
-            <p><span class="milestone-name">Power Gen-1 (6P) Lift</span><span id="Power Gen-1 (6P) Lift">Loading...</span></p> <!-- New milestone -->
-            <p><span class="milestone-name">Hull Sailaway</span><span id="Hull Sailaway">Loading...</span></p>
-        </div>
-        <div class="milestone-box bomesc">
-            <h2>BOMESC</h2>
-            
-            
-            <p><span class="milestone-name">6P MC</span><span id="6P MC">Loading...</span></p>
-            <p><span class="milestone-name">7P MC</span><span id="7P MC">Loading...</span></p>
-            
-            
-            <p><span class="milestone-name">7S MC</span><span id="7S MC">Loading...</span></p>
-	        <p><span class="milestone-name">1P, 2P, 5P, 2PW, 3PW, 4PW MC</span><span id="1P, 2P, 5P, 2PW, 3PW, 4PW MC">Loading...</span></p>
-
-	    <!--
-	    <p><span class="milestone-name">1P, 2P, 5P, 2PW, 3PW, 4PW MC</span><span id="1P, 2P, 5P, 2PW, 3PW, 4PW MC">Loading...</span></p>
-            <p><span class="milestone-name">1PW, 5PW MC</span><span id="BOMESC 1PW, 5PW MC">Loading...</span></p>
-	    -->
-        </div>
-        <div class="milestone-box dme">
-            <h2>DME</h2>
-            <p><span class="milestone-name">3S, 4S, 5S MC</span><span id="3S, 4S, 5S MC">Loading...</span></p>
-            <p><span class="milestone-name">3P, 6S MC</span><span id="3P, 6S MC">Loading...</span></p>
-            <!--
-	    <p><span class="milestone-name">1S MC</span><span id="1S MC">Loading...</span></p>
-            <p><span class="milestone-name">1SA MC</span><span id="1SA MC">Loading...</span></p>
-            <p><span class="milestone-name">4P MC</span><span id="4P MC">Loading...</span></p>
-            <p><span class="milestone-name">1PW, 5PW MC</span><span id="1PW, 5PW MC">Loading...</span></p>
-	    -->
-        </div>
-    </div>
+  <h1>FPSO Hull Sailaway</h1>
+  <div class="label">DSIC – 29 May 2025</div>
+  <div id="countdown" class="countdown">Loading...</div>
 </body>
 </html>
